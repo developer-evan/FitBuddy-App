@@ -3,23 +3,49 @@ import FitnessCards from '../components/FitnessCards';
 import { Ionicons } from '@expo/vector-icons';
 import { useContext, useState } from 'react';
 import { FitnessItems } from '../Context';
+import { firebase } from '../config';
+import { useEffect } from 'react';
+
 
 const HomeScreen = () => {
   const [showIcon, setShowIcon] = useState(false);
   const { calories, minutes, workout, } = useContext(FitnessItems);
-
+  const [name, setName] = useState("");
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          setName(snapshot.data());
+        } else {
+          console.log("User does not exist");
+        }
+      });
+  }, []);
+  const handleLogout = () => {
+    firebase.auth().signOut();
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false}
       style={{ marginTop: 20 }}>
       <View style={{ backgroundColor: "#000000d7", paddingTop: 40, paddingHorizontal: 20, height: 160, width: "100%" }}>
-        <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 50}}>
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>SIX PACK IN 30 DAYS</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 50 }}>
+          {/* <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>SIX PACK IN 30 DAYS</Text> */}
+          <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }}>Welcome back {name.firstName} !</Text>
+          <TouchableOpacity>
+            <Text style={{ color: "white", fontWeight: "bold", fontSize: 18 }} onPress={handleLogout}>Logout</Text>
+          </TouchableOpacity>
 
           {/* Dark Mode  */}
           <TouchableOpacity onPress={() => setShowIcon(!showIcon)}>
-            {showIcon ? <Ionicons name="sunny" size={24} color="white" /> : <Ionicons name="moon" size={24} color="white" /> }
-          </TouchableOpacity>  
+            {showIcon ? <Ionicons name="sunny" size={24} color="white" /> : <Ionicons name="moon" size={24} color="white" />}
+          </TouchableOpacity>
+
         </View>
+
 
         {/* Cards Row  */}
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 30 }}>
