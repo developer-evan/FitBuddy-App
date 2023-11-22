@@ -6,6 +6,7 @@ import FitScreen from './screens/FitScreen';
 import RestScreen from './screens/RestScreen';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import ChatScreen from './screens/ChatScreen';
 import React, { useState, useEffect } from 'react';
 import { firebase } from './config';
 
@@ -51,6 +52,11 @@ const StackNavigator = () => {
               options={{ headerShown: false }}
               name="Rest"
               component={RestScreen}
+            />
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="Chat"
+              component={ChatScreen}
             />
           </>
         ) : (
