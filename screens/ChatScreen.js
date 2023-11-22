@@ -45,7 +45,7 @@ const ChatScreen = () => {
     return () => unsubscribe();
   }, []);
 
-  const isOwnMessage = (sender) => sender === name.firstName;
+  const isOwnMessage = (sender) => sender === name.firstName + ' ' + name.lastName;
 
   const generateAvatarColor = (name) => {
     const colors = ['#FF5722', '#4CAF50', '#2196F3', '#FFC107', '#E91E63', '#673AB7', '#009688', '#FF9800'];
@@ -67,14 +67,14 @@ const ChatScreen = () => {
     setNewMessage('');
   };
 
-  const handleDelete = async (messageId) => {
-    try {
-      const chatRef = firebase.firestore().collection('chat');
-      await chatRef.doc(messageId).delete();
-    } catch (error) {
-      console.error('Error deleting message:', error);
-    }
-  };
+//   const handleDelete = async (messageId) => {
+//     try {
+//       const chatRef = firebase.firestore().collection('chat');
+//       await chatRef.doc(messageId).delete();
+//     } catch (error) {
+//       console.error('Error deleting message:', error);
+//     }
+//   };
 
   const formatTimestamp = (timestamp) => {
     if (!timestamp || !timestamp.toDate) {
