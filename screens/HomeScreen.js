@@ -12,7 +12,7 @@ const HomeScreen = () => {
   const { calories, minutes, workout } = useContext(FitnessItems);
   const navigation = useNavigation();
   const [name, setName] = useState({});
-
+ 
   useEffect(() => {
     firebase
       .firestore()
@@ -28,6 +28,7 @@ const HomeScreen = () => {
       });
   }, []);
 
+  
   const handleLogout = () => {
     firebase.auth().signOut();
   };
@@ -35,7 +36,6 @@ const HomeScreen = () => {
   const handleChatNavigation = () => {
     navigation.navigate('Chat');
   };
-
   const actions = [
     {
       text: 'Join Our Community',
